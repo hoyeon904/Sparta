@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>스프라이트 355ml</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+
+
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .wrap {
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        .button {
+            text-align: center;
+        }
+
+        .blue {
+            color: blue;
+        }
+    </style>
+
+    <script>
+        function buy() {
+            alert("주문이 완료되었습니다. ");
+        }
+
+        $(document).ready(function () {
+            alert('다 로딩됐다!')
+            $.ajax({
+                type: "GET",
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        if (response[i]["name"] == "USDKRW=X") {
+                            $("#exchange").text(response[i]["rate"]);
+                            return;
+                        }
+                    }
+                }
+            })
+        });
+
+        function order() {
+            let name = $("#order_name").val();
+            let count = $("#order_count").val();
+            let address = $("order_address").val();
+            let phone = $("#order_phone").val();
+
+            if (name == ""){
+                alert("이름을 입력해주세요. ")
+                $("#order_count").fount()
+                return
+            } else if (count == ""){
+                alert("수량을 선택해주세요. ")
+                $("#order_count").fount()
+                return
+            } else if (address == ""){
+                alert("주소를 입력해주세요. ")
+                $("#order_address").fount()
+                return
+            } else if (phone == ""){
+                alert("전화번호를 입력해주세요. ")
+                $("#order_phone").fount()
+                return
+            } else {
+                alert("주문이 완료되었습니다. ")
+            }
+        }
+    </script>
+</head>
+
+<body link="font">
+
+    <img src="https://i.imgur.com/EzeTJER.png" width="80%" height="80%"
+        style="display: block; margin: 0 auto; margin-bottom: 20px;">
+
+
+    <div class="wrap">
+        <h1>스프라이트 355ml</h1>
+        <h4>가격: 1600원/개</h4>
+
+        <div class="blue">
+            달러-원 환율:
+            <span id="exchange"></span>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">주문자 이름</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="order_name">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">수량</span>
+            </div>
+
+            <select class="custom-select" id="order_count">
+                <option selected>-- 수량을 선택하세요. --</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">주소</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="order_address">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">전화번호</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="order_phone">
+        </div>
+
+        <div class="button" class="order">
+            <button onclick="order()" class="btn btn-primary" type="submit">주문하기</button>
+        </div>
+    </div>
+</body>
+
+</html>
