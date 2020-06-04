@@ -23,13 +23,20 @@ def write_review():
         'review': review_receive,
     }
 
-    db.review.insert_one(review)
+    db.reviews.insert_one(review)
     return jsonify({'result':'success', 'msg': '리뷰가 성공적으로 작성되었습니다. '})
 
 
 @app.route('/reviews', methods=['GET'])
 def read_reviews():
-    return jsonify({'result':'success', 'msg': '이 요청은 GET!'})
+    reviews = list( # mongodb의 결과들(도큐먼트들)을 리스트로 변환
+        # {} - 검색 조건(비어있으니 모두 다 가져옴)
+        # {'_id': 0} - _id 정보는 필요 없우나 가져오지 않겠다
+        db.reviews.find({}, {'_id': 0})
+    )
+
+    # [{'title": '테스트 책', 'author': '테스트 저자', 'review': '테스트 리뷰'}]
+    return jsonify({'result':'success', 'reviews': reviews})
 
 
 if __name__ == '__main__':

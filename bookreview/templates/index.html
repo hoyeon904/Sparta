@@ -37,7 +37,7 @@
             // 1. 제목, 저자, 리뷰 내용을 가져옵니다.
             let title = $('#title').val();
             let author = $('#author').val();
-            let review = $("#review").val();
+            let review = $('#review').val();
 
             // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
             if (title == '') {
@@ -50,16 +50,16 @@
                 return;
             } else if (review == '') {
                 alert("리뷰를 입력해주세요. ");
-                $("#review").focus();
+                $('#review').focus();
             }
             // 3. POST /reviews 에 저장을 요청합니다.
             $.ajax({
                 type: 'POST', // 타입을 작성합니다.
                 url: '/reviews', // url을 작성합니다.
                 data: {
-                    'tital_give': title,
+                    'title_give': title,
                     'author_give': author,
-                    'review_give': review
+                    'review_give': review,
                 }, // data를 작성합니다. },
                 success: function (response) {
                     if (response['result'] == 'success') {
@@ -80,13 +80,31 @@
                 data: {},
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        alert(response['msg']);
-                        // 2. 성공했을 때 리뷰를 올바르게 화면에 나타내기
+
+                        let reviews = response['reviews'];
+
+                        for (let i = 0; i < reviews.length; i++) {
+                            make_card(
+                                reviews[i]['title'],
+                                reviews[i]['author'],
+                                reviews[i]['review'],
+                            )
+                        }
+
                     } else {
                         alert('리뷰를 받아오지 못했습니다');
                     }
                 }
             });
+        }
+
+        function make_card(title, author, review) {
+            let temp_html = `<tr>
+                                <td>${title}</td>
+                                <td>${author}</td>
+                                <td>${review}</td>
+                            </tr>`;
+            $('#orders-box').append(temp_html);
         }
 
         function is_long(obj) {
