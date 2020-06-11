@@ -43,7 +43,8 @@ def insert_star(url):
         'img_url': img_url,
         'recent': recent,
         'url': url,
-        'like': 0
+        'like': 0,
+        'active': 1
     }
 
     db.mystar.insert_one(doc)

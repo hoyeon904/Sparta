@@ -56,7 +56,7 @@ def star_dislike():
 
     # 4. mystar 목록에서 name이 name_receive인 문서의 like 를 new_like로 변경합니다.
     # 참고: '$set' 활용하기!
-    db.mystar.update_one({'name':name_receive}, {'$set': {'like': new_like}})
+    db.mystar.update_one({'name': name_receive}, {'$set': {'like': new_like}})
 
     # 5. 성공하면 success 메시지를 반환합니다.
     return jsonify({'result': 'success'})
@@ -67,9 +67,13 @@ def star_delete():
     name_receive = request.form['name_give']
 
     # 2. mystar 목록에서 delete_one으로 name이 name_receive와 일치하는 star를 제거합니다.
-    db.mystar.delete_one({'name': name_receive})
+    db.mystar.find_one({'name': name_receive})
 
-    # 3. 성공하면 success 메시지를 반환합니다.
+    new_delete = star['delete'] - 1
+
+    db.mystar.update_one({'name': name_receive}, {'$set': {'delete': new_delete}})
+
+    # # 3. 성공하면 success 메시지를 반환합니다.
     return jsonify({'result': 'success'})
 
 
