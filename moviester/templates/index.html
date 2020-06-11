@@ -53,6 +53,7 @@
                             let img_url = star['img_url']
                             let recent = star['recent']
                             let like = star['like']
+                            let dislike = star['dislike']
 
                             let temp_html = `<div class="card">
         <div class="card-content">
@@ -78,6 +79,12 @@
               <i class="fas fa-thumbs-up"></i>
             </span>
           </a>
+          <a href="#" onclick="dislike_star('${name}')" class="card-footer-item has-text-info">
+            아래로!
+            <span class="icon">
+              <i class="fas fa-thumbs-down"></i>
+            </span>
+          </a>
           <a href="#" onclick="delete_star('${name}')" class="card-footer-item has-text-danger">
             삭제
             <span class="icon">
@@ -101,6 +108,20 @@
                 success: function (response) {
                     if (response['result'] == 'success') {
                         alert('좋아요 완료!');
+                        window.location.reload()
+                    }
+                }
+            });
+        }
+
+        function dislike_star(name) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/dislike',
+                data: {'name_give': name},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('싫어요 완료!');
                         window.location.reload()
                     }
                 }
